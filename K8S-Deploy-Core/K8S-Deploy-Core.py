@@ -6,19 +6,14 @@ from datetime import datetime
 from pprint import pprint, pformat
 from kubernetes import client, config
 from kubernetes.client.rest import ApiException
-from kubernetes.stream import stream
 from urllib2 import urlopen
 import base64
-import tempfile
 import socket
 import yaml
 import time
 import io
 import itertools as it
-from github3 import login
-from github3 import authorize
-import random
-import string
+
 
 from enum import Enum
 
@@ -150,8 +145,8 @@ class K8S_APP_Shell_OS(object):
         if not secret_vault:
             self._create_user_secret(self.AppNamespace)
             secret_pod = find_pod(self, 'secret-pod')
-            if not secret_pod
-                self._create_secret_pod(self.AppNamespace))
+            if not secret_pod:
+                self._create_secret_pod(self.AppNamespace)
         pass
 
     @staticmethod
@@ -609,7 +604,6 @@ def split_yaml_file(self, app_name, app_yaml_file_url, app_svc_name, app_namespa
     create_deployment_file(self, self.extensions_v1beta1, deploy_yaml_file_name, app_namespace)
     if os.path.isfile(svc_yaml_file_name):
         create_svc_file(self, self.core_api_instance, svc_yaml_file_name, app_namespace)
-        time.sleep(60)
         self._current_status = Status.InProgress
         self._current_resource = Resource.K8SObject
         self._current_status_msg = 'Performing Health Check...'
